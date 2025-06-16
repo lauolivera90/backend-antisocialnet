@@ -1,0 +1,314 @@
+openapi: 3.0.0
+info:
+  title: UnaHur Anti-Social Net API
+  description: API para la red social Anti-Social Net, desarrollada como parte de un trabajo práctico.
+  version: 1.0.0
+  contact:
+    name: Semaforo En Rojo
+    email: contacto@unahur.edu.ar
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desarrollo
+
+tags:
+  - name: Users
+    description: Usuarios
+  - name: Posts
+    description: Publicaciones
+  - name: Comments
+    description: Comentarios
+  - name: Tags
+    description: Etiquetas
+
+paths:
+  /api/users:
+    get:
+      summary: Obtener todos los usuarios
+      tags: [Users]
+      responses:
+        200:
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+
+    post:
+      summary: Crear un nuevo usuario
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        201:
+          description: Usuario creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+  /api/users/nickname:
+    get:
+      summary: Obtener un usuario por nickname
+      tags: [Users]
+      parameters:
+        - in: path
+          name: nickname
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+    put:
+      summary: Actualizar un usuario
+      tags: [Users]
+      parameters:
+        - in: path
+          name: nickname
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        200:
+          description: Usuario actualizado
+
+    delete:
+      summary: Eliminar un usuario
+      tags: [Users]
+      parameters:
+        - in: path
+          name: nickname
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Usuario eliminado
+
+  /api/posts:
+    get:
+      summary: Obtener todas las publicaciones
+      tags: [Posts]
+      responses:
+        200:
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/post'
+
+    post:
+      summary: Crear un nuevo post
+      tags: [Posts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post'
+      responses:
+        201:
+          description: Post creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/post'
+
+  /api/comments:
+    post:
+      summary: Agregar un comentario
+      tags: [Comments]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        201:
+          description: Comentario agregado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+  /api/tags:
+    get:
+      summary: Obtener todas las etiquetas
+      tags: [Tags]
+      responses:
+        200:
+          description: Lista de etiquetas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tag'
+
+    post:
+      summary: Crear una nueva etiqueta
+      tags: [Tags]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tag'
+      responses:
+        201:
+          description: Etiqueta creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tag'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        nickName:
+          type: string
+        email:
+          type: string
+        followers:
+          type: array
+          items:
+            type: string
+      example:
+        _id: 60f5a1f99d1b2c001c8e4d3a
+        nickName: "juan123"
+        email: "juan@example.com"
+        followers: ["60f5a1f99d1b2c001c8e4d3b"]
+
+    user:
+      type: object
+      required:
+        - nickName
+        - email
+      properties:
+        nickName:
+          type: string
+        email:
+          type: string
+
+    post:
+      type: object
+      properties:
+        _id:
+          type: string
+        userId:
+          type: string
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+      example:
+        _id: 60f5a1f99d1b2c001c8e4d3f
+        userId: "60f5a1f99d1b2c001c8e4d3a"
+        description: "Hoy fue un buen día."
+        images: ["http://localhost:3000/images/img1.jpg"]
+        tags: ["feliz", "sol"]
+        createdAt: "2023-11-01T10:30:00Z"
+
+    post:
+      type: object
+      required:
+        - userId
+        - description
+      properties:
+        userId:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        images:
+          type: array
+          items:
+            type: string
+
+    comment:
+      type: object
+      properties:
+        _id:
+          type: string
+        postId:
+          type: string
+        userId:
+          type: string
+        content:
+          type: string
+        visible:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    comment:
+      type: object
+      required:
+        - postId
+        - userId
+        - content
+      properties:
+        postId:
+          type: string
+        userId:
+          type: string
+        content:
+          type: string
+
+    tag:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        posts:
+          type: array
+          items:
+            type: string
+
+    tag:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string

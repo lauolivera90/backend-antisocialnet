@@ -7,6 +7,11 @@ const imageSchema = new mongoose.Schema({
         trim: true
         //revisar si falta algo
     },
+    /* post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post',
+    required: true
+  }*/
 }) //Stric true por defecto
 
 module.exports = imageSchema
