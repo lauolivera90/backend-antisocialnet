@@ -2,15 +2,32 @@ const express = require('express')
 const conectarDB = require('./config/db')
 const router = require('./routes')
 require('dotenv').config()
+const User = require('./models/User'); // Asegurate que esté bien la ruta
+const Post = require('./models/post'); // Asegurate que esté bien la ruta
+
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 
-app.use('/', router)
+app.use('', router)
 
 conectarDB()
+
+
+
+//construir de 0 la base de datos mediante terminar: docker compose down -v -> docker compose up --build
+
+//si quieren borrar los datos ingresados
+async function limpiarUsuarios() {
+  //await User.deleteMany({});
+  //await Post.deleteMany({});
+
+  console.log('Todos los usuarios fueron eliminados');
+}
+
+limpiarUsuarios();
 
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`)

@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 
-//const unRouter = require('./unRouter.js');
+const userRouter = require('./userRouter.js');
+const postRouter = require('./postRouter.js');
 
-//app.use('/ruta', unRouter);
+
+app.use('/user', userRouter);
+app.use('/post', postRouter);
 
 module.exports = app
