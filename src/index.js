@@ -6,10 +6,10 @@ const YAML = require('yamljs');
 
 const router = require('./routes')
 require('dotenv').config()
-const User = require('./models/User'); // Asegurate que esté bien la ruta
+/*const User = require('./models/User'); // Asegurate que esté bien la ruta
 const Post = require('./models/post'); // Asegurate que esté bien la ruta
 const Comment = require('./models/comment');
-const Tag = require('./models/tag');
+const Tag = require('./models/tag');*/
 
 
 const app = express()
@@ -17,13 +17,11 @@ const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 
-const swaggerDocument = YAML.load('./docs/swagger.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/api/users', require('./routes/userRouter'));
-app.use('/api/posts', require('./routes/postRouter'));
-app.use('/api/comments', require('./routes/commentRouter'));
-app.use('/api/tags', require('./routes/tagRouter'));
+//const swaggerDocument = YAML.load('./docs/swagger.yaml');
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/', router)
+
 
 
 conectarDB()

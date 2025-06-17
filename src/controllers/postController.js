@@ -2,7 +2,7 @@ const Post = require('../models/post')
 
 const getPosts = async (req, res) => {
     try{
-        const posts = await Post.find({}).populate('userId');
+        const posts = await Post.find({}).select("-__v").populate('user tag', '-_id -__v -password -mail',);
         res.status(200).json(posts);
     }
     catch (error) {
