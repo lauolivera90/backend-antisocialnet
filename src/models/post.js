@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const imageSchema = require('./image')
 
+
 const postSchema = new mongoose.Schema({
         description: {
             type: String,
@@ -18,11 +19,10 @@ const postSchema = new mongoose.Schema({
             required: [true, "Falta el id del usuario que hace la publicación"] 
         },
         image: [imageSchema],
-        tag: {
+        tag: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "Tag",
-            unique: [true, "La etiqueta ya esta asignada a este post"]
-        }
+        }]
 }) //Strict true por defecto
 
 module.exports = mongoose.model('Post', postSchema)
