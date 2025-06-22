@@ -11,18 +11,48 @@ const createTag = async (req, res) => {
 };
 
 const getTags = async (req, res) => {
-  const tags = await Tag.find();
-  res.json(tags);
+  try {
+    const tags = await Tag.find();
+    res.json(tags);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener etiquetas', error });
+  }
 };
 
-const getTagById = async (req, res) => {
-  const tag = await Tag.findById(req.params.id);
-  if (!tag) return res.status(404).json({ error: 'Etiqueta no encontrada' });
-  res.json(tag);
+
+const getTag = async (req, res) => {
+  try {
+    const tag = await Tag.findById(req.params.id);
+    if (!tag) return res.status(404).json({ message: 'Etiqueta no encontrada' });
+    res.json(tag);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al buscar etiqueta', error });
+  }
 };
 
+const updateTag = async (req, res) => {
+  try {
+    const updated = await Tag.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ message: 'Etiqueta no encontrada' });
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ message: 'Error al actualizar etiqueta', error });
+  }
+};
+
+const deleteTag = async (req, res) => {
+  try {
+    const deleted = await Tag.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: 'Etiqueta no encontrada' });
+    res.json({ message: 'Etiqueta eliminada correctamente' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar etiqueta', error });
+  }
+};
 module.exports = {
     createTag,
-    getTagById,
-    getTags
+    getTag,
+    getTags, 
+    updateTag,
+    deleteTag
 }

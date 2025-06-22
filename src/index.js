@@ -18,8 +18,8 @@ const PORT = process.env.PORT || 3000
 app.use(express.json())
 
 
-//const swaggerDocument = YAML.load('./docs/swagger.yaml');
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerDocument = YAML.load('./docs/swagger.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', router)
 

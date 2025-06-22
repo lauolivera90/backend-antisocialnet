@@ -22,7 +22,7 @@ tags:
     description: Etiquetas
 
 paths:
-  /api/users:
+  /users:
     get:
       summary: Obtener todos los usuarios
       tags: [Users]
@@ -53,7 +53,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
 
-  /api/users/nickname:
+  /users/nickname:
     get:
       summary: Obtener un usuario por nickname
       tags: [Users]
@@ -72,7 +72,7 @@ paths:
                 $ref: '#/components/schemas/user'
 
     put:
-      summary: Actualizar un usuario
+      summary: Actualizar un usuario por nickName
       tags: [Users]
       parameters:
         - in: path
@@ -103,7 +103,7 @@ paths:
         204:
           description: Usuario eliminado
 
-  /api/posts:
+  /posts:
     get:
       summary: Obtener todas las publicaciones
       tags: [Posts]
@@ -133,8 +133,118 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/post'
+  /posts/{id}:
+    put:
+      summary: Actualizar una publicacion por ID
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: Publicacion actualizada exitosamente
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar una publicacion por ID
+      description: Elimina una publicacion y todos sus recursos
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Publicacion eliminada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Publicacion eliminada exitosamente"
+        '500':
+          description: Error interno del servidor
+  /posts/{id}/images/{idImage}:
+    delete:
+      summary: Eliminar una imagen especi­fica de un post
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del post
+        - name: idImage
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la imagen a eliminar
+      responses:
+        '200':
+          description: Imagen eliminada exitosamente
+        '500':
+          description: Error al eliminar la imagen
 
-  /api/comments:
+    put:
+      summary: Actualizar una publicacion con imagenes
+      tags:
+        - Posts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: Contenido actualizado del post
+                imagenes:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Nuevas imagenes para agregar al post
+      responses:
+        '200':
+          description: Publicacion actualizada exitosamente
+        '500':
+          description: Error al actualizar la publicacion
+  /comments:
+    get:
+      summary: Obtener todos los comentarios
+      tags:
+        - Comments
+      responses:
+        '200':
+          description: Lista de comentarios
+        '500':
+          description: Error interno del servidor
+
     post:
       summary: Agregar un comentario
       tags: [Comments]
@@ -151,8 +261,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/comment'
-
-  /api/tags:
+  /comments/{id}:
+    put:
+      summary: Actualizar un comentario por ID
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        '201':
+          description: Comentario actualizado exitosamente
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar un comentario por ID
+      tags:
+        - Comments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Comentario eliminado exitosamente
+        '500':
+          description: Error interno del servidor
+  /tags:
     get:
       summary: Obtener todas las etiquetas
       tags: [Tags]
@@ -182,11 +328,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/tag'
-
+  /tags/{id}:
+    put:
+      summary: Actualizar una etiqueta por ID
+      tags:
+        - Tags
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        '201':
+          description: Etiqueta actualizada exitosamente
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar una etiqueta por ID
+      tags:
+        - Tags
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a eliminar
+      responses:
+        '500':
+          description: Error interno del servidor
 components:
   schemas:
     User:
       type: object
+      required:
+        - nickName
+        - email
+        - pasword
       properties:
         _id:
           type: string
@@ -194,26 +380,13 @@ components:
           type: string
         email:
           type: string
-        followers:
-          type: array
-          items:
-            type: string
+        pasword:
+          type: string
       example:
         _id: 60f5a1f99d1b2c001c8e4d3a
         nickName: "juan123"
         email: "juan@example.com"
-        followers: ["60f5a1f99d1b2c001c8e4d3b"]
-
-    user:
-      type: object
-      required:
-        - nickName
-        - email
-      properties:
-        nickName:
-          type: string
-        email:
-          type: string
+        pasword: "60f5a1f99d"
 
     post:
       type: object
