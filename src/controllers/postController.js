@@ -1,4 +1,5 @@
 const Post = require('../models/post')
+const User = require('../models/User')
 
 const getPosts = async (req, res) => {
     try{
@@ -91,6 +92,19 @@ const deleteImageFromPost = async (req, res) => {
     }
 }
 
+const getPostByUser = async (req, res) => {
+    try{
+        const nicknamePost = req.params.nickname
+        const user = await User.findOne({nickname: nicknamePost})
+        if (!user) return  res.status(404).json({ message: "Usuario no encontrado" });
+        const posts = await Post.find({ user: user._id }).populate('user', 'nickname mail -_id');
+        res.status(200).json(posts);
+    }
+    catch (error) {
+        res.status(500).json({error: error.message});
+    }
+}
+
 const updateImageFromPost = async (req, res) => {
     try {
         const id = req.params.id;      // El ID del post
@@ -135,5 +149,6 @@ module.exports = {
     updatePost,
     deletePost,
     deleteImageFromPost,
-    updateImageFromPost
+    updateImageFromPost,
+    getPostByUser
 }

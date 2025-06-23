@@ -1,7 +1,7 @@
 services:
   mongo:
     image: mongo
-    container_name: mongo-container
+    container_name: mongo-container-tpPersistencia
     ports:
       - "27017:27017"
     environment:

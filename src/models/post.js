@@ -11,7 +11,13 @@ const postSchema = new mongoose.Schema({
         },
         upload_date:{
             type: Date,
-            default: Date.now
+            default: Date.now,
+            validate: {
+                validator: function (value) {
+                    return value <= new Date();
+                },
+            message: "La fecha de publicación no puede ser en el futuro"
+            }
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,

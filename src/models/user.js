@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     nickname: {
         type: String,
         required: [true, "El nickname es obligatorio"],
-        unique: [true, "El nickname ya está en uso"], //revisar que no permita duplicados
+        unique: [true, "El nickname ya está en uso"], 
         minlength: [3, "El nickname no puede tener menos de 3 caracteres"],
         lowercase: true,
         trim: true
