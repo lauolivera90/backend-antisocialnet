@@ -2,7 +2,6 @@ const User = require('../models/User')
 
 const getUsers = async (req, res) => {
     try{
-        //revisar si hay que retonar esos campos o mas
         const users = await User.find()
         .select('-__v'); 
 

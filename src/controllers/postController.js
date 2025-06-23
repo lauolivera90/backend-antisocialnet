@@ -5,7 +5,6 @@ const getPosts = async (req, res) => {
     try{
         const {userId} = req.query;
 
-        //Permite filtrar por id de usuario
         const filter = userId ? {user: userId} : {};
 
         const posts = await Post.find(filter)
@@ -64,27 +63,21 @@ const deleteImageFromPost = async (req, res) => {
        const id = req.params.id;      
         const imageId = req.params.idImage;
 
-        // Buscar el post por su ID
         const post = await Post.findById(id);
         if (!post) {
             return res.status(404).json({ error: 'Post no encontrado' });
         }
 
-        // Buscar el índice de la imagen en el array 'images'
         const imageIndex = post.image.findIndex(img => img._id.toString() === imageId);
 
-        // Si la imagen no está en el array
         if (imageIndex === -1) {
             return res.status(404).json({ error: 'Image no encontrada en este post' });
         }
 
-        // Eliminar la imagen del array
         post.image.splice(imageIndex, 1);
 
-        // Guardar el post actualizado
         await post.save();
 
-        // Responder con el post actualizado
         res.status(200).json({ message: 'Image eliminada correctamente', post });
     }
     catch (error) {
@@ -107,36 +100,29 @@ const getPostByUser = async (req, res) => {
 
 const updateImageFromPost = async (req, res) => {
     try {
-        const id = req.params.id;      // El ID del post
-        const imageId = req.params.idImage; // El ID de la imagen
-        const { url } = req.body; // La nueva URL de la imagen que se quiere actualizar
+        const id = req.params.id;  
+        const imageId = req.params.idImage;
+        const { url } = req.body; 
 
-        // Buscar el post por su ID
         const post = await Post.findById(id);
         if (!post) {
             return res.status(404).json({ error: 'Post no encontrado' });
         }
 
-        // Asegurarse de que el campo 'images' sea un array
         if (!Array.isArray(post.image)) {
-            post.image = []; // Si no es un array, lo inicializamos como un array vacío
+            post.image = [];
         }
 
-        // Buscar el índice de la imagen en el array 'images'
         const imageIndex = post.image.findIndex(img => img._id.toString() === imageId);
 
-        // Si la imagen no está en el array
         if (imageIndex === -1) {
             return res.status(404).json({ error: 'Image no encontrada en este post' });
         }
 
-        // Actualizar la URL de la imagen
         post.image[imageIndex].url = url;
 
-        // Guardar el post actualizado
         await post.save();
 
-        // Responder con el post actualizado
         return res.status(200).json({ message: 'Image actualizada correctamente', post });
     } catch (error) {
         res.status(500).json({error: error.message});

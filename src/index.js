@@ -6,8 +6,8 @@ const YAML = require('yamljs');
 
 const router = require('./routes')
 require('dotenv').config()
-const User = require('./models/User'); // Asegurate que esté bien la ruta
-const Post = require('./models/post'); // Asegurate que esté bien la ruta
+const User = require('./models/User');
+const Post = require('./models/post'); 
 const Comment = require('./models/comment');
 const Tag = require('./models/tag');
 
@@ -22,7 +22,6 @@ const swaggerDocument = YAML.load('./docs/swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', router)
-
 
 
 conectarDB()

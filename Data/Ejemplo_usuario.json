@@ -1,0 +1,16 @@
+
+
+[
+  {
+    "_id": "68599618bd836726813a37da",
+    "nickname": "ezequiel",
+    "mail": "eze@mail.com",
+    "password": "123456"
+  },
+  {
+    "_id": "666666666666666666666666",
+    "nickname": "martin",
+    "mail": "martin@mail.com",
+    "password": "123456"
+  }
+]
