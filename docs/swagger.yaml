@@ -53,13 +53,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
 
-  /users/nickname:
+  /users/id:
     get:
-      summary: Obtener un usuario por nickname
+      summary: Obtener un usuario por id
       tags: [Users]
       parameters:
         - in: path
-          name: nickname
+          name: id
           required: true
           schema:
             type: string
@@ -72,11 +72,11 @@ paths:
                 $ref: '#/components/schemas/user'
 
     put:
-      summary: Actualizar un usuario por nickName
+      summary: Actualizar un usuario por id
       tags: [Users]
       parameters:
         - in: path
-          name: nickname
+          name: id
           required: true
           schema:
             type: string
@@ -95,7 +95,7 @@ paths:
       tags: [Users]
       parameters:
         - in: path
-          name: nickname
+          name: id
           required: true
           schema:
             type: string

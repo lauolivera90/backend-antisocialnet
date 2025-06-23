@@ -12,7 +12,7 @@ router.get('/:postId', commentController.getComments); // le quiete el /post/:po
 
 //Actualizar uncomentario
 
-router.update('/:id', commentController.updateComment);
+router.put('/:id', commentController.updateComment);
 
 // Eliminar comentario
 //router.delete('/:id', commentController.deleteComment);
