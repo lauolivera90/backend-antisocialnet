@@ -6,7 +6,7 @@
 - **Lautaro Olivera**
 - **Ezequiel Ortiz**
 - **Martín Lubris Vadell**
-- **Jonatan Jofe**
+- **Jonatan Jofre**
 
 ---
 
