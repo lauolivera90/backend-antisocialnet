@@ -4,11 +4,12 @@ const router = Router();
 
 /*El get acepta querys, lo cual permite filtrar posts por usuario 
 http://localhost:3000/post?userId=6850d3a11d96986d328a2dda */
-router.get('/', postController.getPosts); 
+router.get('/', postController.getPosts);
+router.get('/:id', postController.getPost); 
 router.post('/', postController.createPost);
 router.put('/:id', postController.updatePost);
 router.delete('/:id', postController.deletePost);
-router.get('/:nickname', postController.getPostByUser);
+router.get('/user/:nickname', postController.getPostByUser); //revisar
 
 //imagenes
 

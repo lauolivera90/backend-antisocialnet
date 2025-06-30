@@ -1,5 +1,6 @@
 const Post = require('../models/post')
 const User = require('../models/User')
+const Comment = require('../models/comment')
 
 const getPosts = async (req, res) => {
     try{
@@ -12,6 +13,25 @@ const getPosts = async (req, res) => {
         .populate('user tag', '-_id -__v -password -mail',);
 
         res.status(200).json(posts);
+    }
+    catch (error) {
+        res.status(500).json({error: error.message});
+    }
+}
+
+const getPost = async (req, res) => {
+    try{
+        const id = req.params.id
+
+        const post = await Post.findById(id)
+        .select("-__v")
+        .populate('user tag', '-_id -__v -password -mail',);
+
+        const comments = await Comment.find({ post: id, visible: true })
+        .select("-__v -visible -post -_id")
+        .populate('user', '-_id -__v -password -mail',);
+
+        res.status(200).json({ ...post.toObject(), comments });
     }
     catch (error) {
         res.status(500).json({error: error.message});
@@ -131,6 +151,7 @@ const updateImageFromPost = async (req, res) => {
 
 module.exports = {
     getPosts,
+    getPost,
     createPost,
     updatePost,
     deletePost,
