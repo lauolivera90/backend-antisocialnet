@@ -10,7 +10,7 @@ const getPosts = async (req, res) => {
 
         const posts = await Post.find(filter)
         .select("-__v")
-        .populate('user tag', '-_id -__v -password -mail',);
+        .populate('user tag', '-__v -password -mail',);
 
         res.status(200).json(posts);
     }
@@ -25,11 +25,11 @@ const getPost = async (req, res) => {
 
         const post = await Post.findById(id)
         .select("-__v")
-        .populate('user tag', '-_id -__v -password -mail',);
+        .populate('user tag', '-__v -password -mail',);
 
         const comments = await Comment.find({ post: id, visible: true })
         .select("-__v -visible -post -_id")
-        .populate('user', '-_id -__v -password -mail',);
+        .populate('user', '-__v -password -mail',);
 
         res.status(200).json({ ...post.toObject(), comments });
     }
