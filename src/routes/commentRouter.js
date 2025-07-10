@@ -15,7 +15,7 @@ router.get('/:postId', commentController.getComments); // le quiete el /post/:po
 router.put('/:id', commentController.updateComment);
 
 // Eliminar comentario
-//router.delete('/:id', commentController.deleteComment);
+router.delete('/:id', commentController.deleteComment);
 
 // Obtine todos lo comentarios 
 router.get('/', commentController.getAllTheComments);
