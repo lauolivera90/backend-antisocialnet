@@ -19,7 +19,6 @@ async function seedDB() {
     await Comment.deleteMany({});
     console.log("Base de datos reseteada.");
 
-    // 1. Usuarios
     const usersData = [
       { nickname: "cat_lover", mail: "michi@mail.com", password: "123456" },
       { nickname: "news_daily", mail: "noticias@mail.com", password: "123456" },
@@ -30,7 +29,6 @@ async function seedDB() {
     const users = await User.insertMany(usersData);
     console.log("5 Usuarios creados.");
 
-    // 2. Tags
     const tagsData = [
       { name: "Gatos" }, { name: "Noticias" }, { name: "Fitness" }, 
       { name: "Argentina" }, { name: "Informática" }, { name: "Deportes" }, 
@@ -39,7 +37,6 @@ async function seedDB() {
     const tags = await Tag.insertMany(tagsData);
     console.log("10 Tags creados.");
 
-    // 3. Posts
     const postsData = [
       { // Post IT Master (Sin imágenes)
         description: "Acabo de terminar mi primer script de seeding en Node.js. ¡La automatización es vida!",
@@ -47,19 +44,19 @@ async function seedDB() {
         image: [],
         tag: [tags[4]._id, tags[6]._id]
       },
-      { // Post Cat Lover (Sin imágenes)
+      { 
         description: "Mis gatos no me dejan programar, se acostaron arriba del teclado de nuevo.",
         user: users[0]._id,
         image: [],
         tag: [tags[0]._id, tags[7]._id]
       },
-      { // Post Arg Pasion (Sin imágenes)
+      { 
         description: "Nada mejor que un buen asado de domingo con amigos. ¡Viva la patria!",
         user: users[3]._id,
         image: [],
         tag: [tags[3]._id, tags[9]._id]
       },
-      { // Post Fitness Pro (4 imágenes)
+      { 
         description: "Rutina completa de hoy: sentadillas, prensa y un poco de cardio. ¡No se para!",
         user: users[2]._id,
         image: [
@@ -70,7 +67,7 @@ async function seedDB() {
         ],
         tag: [tags[2]._id, tags[5]._id]
       },
-      { // Post News Daily (1 imagen)
+      { 
         description: "Último momento: Avances significativos en la inteligencia artificial este mes.",
         user: users[1]._id,
         image: [{ url: "https://picsum.photos/300/300?random=5" }],
@@ -80,19 +77,19 @@ async function seedDB() {
     const posts = await Post.insertMany(postsData);
     console.log("5 Posts creados.");
 
-    // 4. Comentarios
+    
     const commentsData = [
-      // Post 1 (IT Master): 1 comentario
+      
       { post: posts[0]._id, user: users[1]._id, text: "¡Buenísimo ese script!" },
-      // Post 2 (Cat Lover): 2 comentarios
+      
       { post: posts[1]._id, user: users[3]._id, text: "Los míos hacen lo mismo jaja." },
       { post: posts[1]._id, user: users[4]._id, text: "Necesitás un teclado anti-gatos." },
-      // Post 3 (Arg Pasion): 1 comentario
+      
       { post: posts[2]._id, user: users[0]._id, text: "¡Qué envidia ese asado!" },
-      // Post 4 (Fitness Pro): 2 comentarios
+      
       { post: posts[3]._id, user: users[4]._id, text: "¡Tremendo entrenamiento!" },
       { post: posts[3]._id, user: users[1]._id, text: "A darle con todo 💪" }
-      // Post 5 (News): 0 comentarios
+      
     ];
     await Comment.insertMany(commentsData);
     console.log("Comentarios inyectados.");
