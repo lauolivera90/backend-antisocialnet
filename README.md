@@ -1,4 +1,4 @@
-# 🚀 Anti-Social Net - Backend (API REST)
+# 🚀 Anti-Social Net - Backend 
 Este proyecto constituye el núcleo lógico y de persistencia para una red social. Desarrollado como parte de la materia Estrategias de Persistencia, el objetivo principal fue diseñar una arquitectura de datos robusta utilizando MongoDB y documentar las interfaces de comunicación mediante Swagger.
 
 # ⚙️ Instalación y Configuración (Quick Start)
