@@ -55,9 +55,9 @@ const updatePost = async (req, res) => {
         const id = req.params.id
 
         const post = await Post.findByIdAndUpdate(id, body, {new: true});
-        if (!post) return res.status(404).json({error: "Post no encontrado"});
+        if (!post) return res.status(404).json({error: "Post not found"});
 
-        res.status(200).json({message: "Post actualizado"})
+        res.status(200).json({message: "Post updated"})
     }
     catch (error){
         res.status(500).json({error: error.message});
@@ -69,9 +69,9 @@ const deletePost = async (req, res) => {
         const id = req.params.id
     
         const post = await Post.findByIdAndDelete(id, {new: true})
-        if (!post) return res.status(404).json({error: "Post no encontrado"});
+        if (!post) return res.status(404).json({error: "Post not found"});
 
-        res.status(200).json({message: "Post eliminado"});
+        res.status(200).json({message: "Post deleted"});
     }
     catch (error){
         res.status(500).json({error: error.message});
@@ -85,20 +85,20 @@ const deleteImageFromPost = async (req, res) => {
 
         const post = await Post.findById(id);
         if (!post) {
-            return res.status(404).json({ error: 'Post no encontrado' });
+            return res.status(404).json({ error: 'Post not found' });
         }
 
         const imageIndex = post.image.findIndex(img => img._id.toString() === imageId);
 
         if (imageIndex === -1) {
-            return res.status(404).json({ error: 'Image no encontrada en este post' });
+            return res.status(404).json({ error: 'Image not found in this post' });
         }
 
         post.image.splice(imageIndex, 1);
 
         await post.save();
 
-        res.status(200).json({ message: 'Image eliminada correctamente', post });
+        res.status(200).json({ message: 'Image deleted successfully', post });
     }
     catch (error) {
         res.status(500).json({error: error.message});
@@ -109,7 +109,7 @@ const getPostByUser = async (req, res) => {
     try{
         const nicknamePost = req.params.nickname
         const user = await User.findOne({nickname: nicknamePost})
-        if (!user) return  res.status(404).json({ message: "Usuario no encontrado" });
+        if (!user) return  res.status(404).json({ message: "User not found" });
         const posts = await Post.find({ user: user._id }).populate('user', 'nickname mail -_id');
         res.status(200).json(posts);
     }
@@ -126,7 +126,7 @@ const updateImageFromPost = async (req, res) => {
 
         const post = await Post.findById(id);
         if (!post) {
-            return res.status(404).json({ error: 'Post no encontrado' });
+            return res.status(404).json({ error: 'Post not found' });
         }
 
         if (!Array.isArray(post.image)) {
@@ -136,14 +136,14 @@ const updateImageFromPost = async (req, res) => {
         const imageIndex = post.image.findIndex(img => img._id.toString() === imageId);
 
         if (imageIndex === -1) {
-            return res.status(404).json({ error: 'Image no encontrada en este post' });
+            return res.status(404).json({ error: 'Image not found in this post' });
         }
 
         post.image[imageIndex].url = url;
 
         await post.save();
 
-        return res.status(200).json({ message: 'Image actualizada correctamente', post });
+        return res.status(200).json({ message: 'Image updated successfully', post });
     } catch (error) {
         res.status(500).json({error: error.message});
     }

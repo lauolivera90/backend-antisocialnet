@@ -6,8 +6,8 @@ const postSchema = new mongoose.Schema({
         description: {
             type: String,
             trim: true,
-            required: [true, "Se requiere una descripcion para la publición"],
-            maxlength: [2200, "La descripción no puede exceder los 2200 caracteres"]
+            required: [true, "A description is required for the post"],
+            maxlength: [2200, "The description cannot exceed 2200 characters"]
         },
         upload_date:{
             type: Date,
@@ -16,13 +16,13 @@ const postSchema = new mongoose.Schema({
                 validator: function (value) {
                     return value <= new Date();
                 },
-            message: "La fecha de publicación no puede ser en el futuro"
+            message: "The publication date cannot be in the future"
             }
         },
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
-            required: [true, "Falta el id del usuario que hace la publicación"] 
+            required: [true, "Missing the ID of the user creating the post"] 
         },
         image: [imageSchema],
         tag: [{

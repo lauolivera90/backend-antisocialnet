@@ -25,11 +25,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/', router)
 
-const a = async () => {
-}
-
-a()
-
 
 conectarDB()
 
