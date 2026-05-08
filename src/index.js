@@ -1,6 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose');
-const conectarDB = require('./config/db')
+const connectDB = require('./config/db')
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const cors = require('cors');
@@ -30,8 +30,8 @@ app.get('/health', (req, res) => {
 });
 
 
-conectarDB()
+connectDB()
 
 app.listen(PORT, () => {
-    console.log(`Servidor escuchando en http://localhost:${PORT}`)
+    console.log(`Server listening on http://localhost:${PORT}`)
 })
