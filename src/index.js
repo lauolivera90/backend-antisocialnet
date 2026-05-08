@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const router = require('./routes')
 require('dotenv').config()
-const User = require('./models/User');
+const User = require('./models/user');
 const Post = require('./models/post'); 
 const Comment = require('./models/comment');
 const Tag = require('./models/tag');
