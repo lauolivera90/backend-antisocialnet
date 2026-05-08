@@ -29,9 +29,15 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log(`Server listening on http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error starting the server:', error);
+    }
+};
 
-connectDB()
-
-app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`)
-})
+startServer();
