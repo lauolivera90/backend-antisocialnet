@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const User = require('./src/models/User'); 
-const Tag = require('./src/models/Tag'); 
-const Post = require('./src/models/Post'); 
-const Comment = require('./src/models/Comment');
+const User = require('./src/models/user'); 
+const Tag = require('./src/models/tag'); 
+const Post = require('./src/models/post'); 
+const Comment = require('./src/models/comment');
 require('dotenv').config() 
 
 const MONGO_URI = process.env.MONGO_URI
