@@ -4,9 +4,9 @@ const Comment = require('../models/comment')
 
 const getPosts = async (req, res) => {
     try{
-        const {userId} = req.query;
+        const {tagId} = req.query;
 
-        const filter = userId ? {user: userId} : {};
+        const filter = tagId ? {tag: tagId} : {};
 
         const posts = await Post.find(filter)
         .select("-__v")

@@ -31,13 +31,28 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
     try{
-        const user = new User(req.body);
+        const { nickname, mail, password } = req.body;
+
+        const existingUser = await User.findOne({ $or: [{ nickname }, { mail }] });
+        if (existingUser) {
+          const message = existingUser.nickname === nickname
+            ? 'El nombre de usuario ya está en uso.'
+            : 'El mail ya está en uso.';
+          return res.status(409).json({ message });
+        }
+
+        const user = new User({ nickname, mail, password });
         await user.save();
 
-        res.status(201).json(user);
+        const userObject = await User.findById(user._id);
+
+        res.status(201).json(userObject);
     }
     catch (error) {
-        res.status(500).json({error: error.message});
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({ error: error.message });
+        }
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -70,10 +85,33 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const loginUser = async (req, res) => {
+  const { nickname, password } = req.body;
+
+  if (!nickname || !password) {
+    return res.status(400).json({ message: 'El nickname y la contraseña son requeridos.' });
+  }
+
+  try {
+    const user = await User.findOne({ nickname }).select('+password');
+    if (!user || !(await user.comparePassword(password))) {
+      return res.status(401).json({ message: 'Credenciales inválidas.' });
+    }
+
+    const userObject = user.toObject();
+    delete userObject.password;
+
+    res.status(200).json(userObject);
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
+  }
+};
+
 module.exports = {
     getUsers,
     createUser,
     updateUser,
     deleteUser,
-    getUser
+    getUser,
+    loginUser
 }

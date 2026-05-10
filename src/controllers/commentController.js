@@ -64,13 +64,21 @@ const deleteComment = async (req, res) => {
 
 
 const getAllTheComments = async (req, res) => {
+  const { userId } = req.query;
+  const filter = {};
+
+  if (userId) {
+    filter.user = userId;
+  }
+
   try {
-    const comments = await Comment.find()
-      .populate('user', 'nickname')
+    const comments = await Comment.find(filter)
+      .populate('user', 'nickname avatar')
+      .populate('post', 'description');
 
     res.status(200).json(comments);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Error interno del servidor.', error: error.message });
   }
 }
 module.exports = {

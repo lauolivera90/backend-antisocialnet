@@ -3,21 +3,20 @@ const router = express.Router();
 const commentController = require('../controllers/commentController');
 
 
+// GET /comment -> Obtiene todos los comentarios.
+// GET /comment?userId={id_del_usuario} -> Filtra comentarios por usuario.
+router.get('/', commentController.getAllTheComments);
 
-// Crear comentario
+// GET /comment/post/:postId -> Obtener comentarios visibles de un post (con límite de antigüedad).
+router.get('/post/:postId', commentController.getComments);
+
+// POST /comment -> Crear un nuevo comentario.
 router.post('/', commentController.createComment);
 
-// Obtener comentarios visibles de un post
-router.get('/:postId', commentController.getComments); // le quiete el /post/:postId
-
-//Actualizar uncomentario
-
+// PUT /comment/:id -> Actualizar un comentario por su ID.
 router.put('/:id', commentController.updateComment);
 
-// Eliminar comentario
+// DELETE /comment/:id -> Eliminar un comentario por su ID.
 router.delete('/:id', commentController.deleteComment);
-
-// Obtine todos lo comentarios 
-router.get('/', commentController.getAllTheComments);
 
 module.exports = router;
