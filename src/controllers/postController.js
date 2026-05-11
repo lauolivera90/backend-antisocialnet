@@ -10,7 +10,8 @@ const getPosts = async (req, res) => {
 
         const posts = await Post.find(filter)
         .select("-__v")
-        .populate('user tag', '-__v -password -mail',);
+        .populate('user', '-__v -password -mail')
+        .populate('tag', '-__v');
 
         res.status(200).json(posts);
     }
@@ -25,11 +26,12 @@ const getPost = async (req, res) => {
 
         const post = await Post.findById(id)
         .select("-__v")
-        .populate('user tag', '-__v -password -mail',);
+        .populate('user', '-__v -password -mail')
+        .populate('tag', '-__v');
 
         const comments = await Comment.find({ post: id, visible: true })
         .select("-__v -visible -post -_id")
-        .populate('user', '-__v -password -mail',);
+        .populate('user', '-__v -password -mail');
 
         res.status(200).json({ ...post.toObject(), comments });
     }
@@ -110,7 +112,11 @@ const getPostByUser = async (req, res) => {
         const nicknamePost = req.params.nickname
         const user = await User.findOne({nickname: nicknamePost})
         if (!user) return  res.status(404).json({ message: "User not found" });
-        const posts = await Post.find({ user: user._id }).populate('user', 'nickname mail -_id');
+        
+        const posts = await Post.find({ user: user._id })
+            .select('-__v')
+            .populate('user', '-__v -password -mail')
+            .populate('tag', '-__v');
         res.status(200).json(posts);
     }
     catch (error) {
