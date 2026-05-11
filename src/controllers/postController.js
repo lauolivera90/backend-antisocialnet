@@ -30,7 +30,7 @@ const getPost = async (req, res) => {
         .populate('tag', '-__v');
 
         const comments = await Comment.find({ post: id, visible: true })
-        .select("-__v -visible -post -_id")
+        .select("-__v -visible -post _id")
         .populate('user', '-__v -password -mail');
 
         res.status(200).json({ ...post.toObject(), comments });
