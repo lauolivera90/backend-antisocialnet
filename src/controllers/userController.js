@@ -1,4 +1,6 @@
 const User = require('../models/user')
+const Post = require('../models/post')
+const Comment = require('../models/comment')
 
 const getUsers = async (req, res) => {
     try{
@@ -21,7 +23,10 @@ const getUser = async (req, res) => {
 
         if (!user) return res.status(404).json({message: "User not found"})
 
-        res.status(200).json(user);
+        const postCount = await Post.countDocuments({ user: id });
+        const commentCount = await Comment.countDocuments({ user: id });
+
+        res.status(200).json({ ...user.toObject(), postCount, commentCount });
     }
     catch (error) {
         res.status(500).json({error: error.message});
