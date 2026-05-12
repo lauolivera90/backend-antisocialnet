@@ -17,7 +17,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(express.json())
-app.use(cors({ origin: ['http://localhost:5173', 'https://anti-social-net.vercel.app'] }));
+app.use(cors({ origin: ['http://localhost:5173', 'https://anti-social-net.vercel.app', 'http://192.168.1.2:5173'] }));
 
 
 const swaggerDocument = YAML.load('./docs/swagger.yaml');
