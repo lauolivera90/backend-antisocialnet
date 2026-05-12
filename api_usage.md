@@ -168,6 +168,35 @@ Este documento describe todos los endpoints disponibles en la API, organizados p
   }'
   ```
 
+
+### Obtener un Comentario por ID
+
+- **URL:** `/comment/:id`
+- **Método:** `GET`
+- **Descripción:** Obtiene los datos de un comentario específico mediante su ID. Retorna el comentario incluyendo la información básica poblada del usuario creador (nickname y avatar) y del post al que pertenece (descripción).
+
+#### Parámetros de URL
+- `id` (String): El ID (ObjectId de Mongoose) único del comentario que se desea consultar.
+
+#### Respuestas Exitosas
+- **Código:** `200 OK`
+  **Ejemplo de Contenido:**
+  ```json
+  {
+    "_id": "651a2b3c4d5e6f7a8b9c0d1e",
+    "text": "¡Qué buen post, me encantó!",
+    "visible": true,
+    "upload_date": "2026-05-12T01:25:27.000Z",
+    "user": {
+      "_id": "651a2b3c4d5e6f7a8b9c0d11",
+      "nickname": "lauty_dev",
+      "avatar": "https://link-a-mi-avatar.com/img.jpg"
+    },
+    "post": {
+      "_id": "651a2b3c4d5e6f7a8b9c0d22",
+      "description": "Este es el contenido de mi post..."
+    }
+  }
 ---
 
 ## Entidad: Tags (Etiquetas)

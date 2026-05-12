@@ -19,4 +19,8 @@ router.put('/:id', commentController.updateComment);
 // DELETE /comment/:id -> Eliminar un comentario por su ID.
 router.delete('/:id', commentController.deleteComment);
 
+// Agrega esta línea donde defines tus rutas (usualmente junto a router.get('/', ...))
+router.get('/:id', commentController.getComment);
+
+
 module.exports = router;
