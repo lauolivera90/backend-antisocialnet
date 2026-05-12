@@ -29,8 +29,10 @@ const getPost = async (req, res) => {
         .populate('user', '-__v -password -mail')
         .populate('tag', '-__v');
 
+        if (!post) return res.status(404).json({ error: "Post not found" });
+
         const comments = await Comment.find({ post: id, visible: true })
-        .select("-__v -visible -post _id")
+        .select("-__v -visible -post")
         .populate('user', '-__v -password -mail');
 
         res.status(200).json({ ...post.toObject(), comments });
